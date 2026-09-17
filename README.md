@@ -6,19 +6,17 @@ copies as possible.
 
 ## Prerequisites
 
-- [Inkscape](https://inkscape.org/) 1.x — does the actual tiling
-- `xmllint` (part of `libxml2`) — reads artwork dimensions
+- [Inkscape](https://inkscape.org/) 1.x — measures, rotates, and rasterizes the artwork
 
 ```sh
 # macOS
 brew install --cask inkscape
-brew install libxml2   # xmllint is usually already present via Xcode CLT
 
 # Omarchy
-sudo pacman -S inkscape libxml2
+sudo pacman -S inkscape
 ```
 
-`awk`, `sed`, and `bash` are also required, but ship by default on both.
+`awk`, `sed`, `base64`, and `bash` are also required, but ship by default on both.
 
 ## Quick start
 
@@ -53,9 +51,9 @@ That scales `your-image` to 50mm wide on the sheet, in both page sizes.
 
 ```sh
 make tile SHADOW=1          # add a white halo/drop-shadow behind every tile
-make tile GAP=2 MARGIN=5    # 2mm between tiles, 5mm page border (default: 0/2, packed tight)
+make tile GAP=0 MARGIN=5    # pack tiles edge to edge, 5mm page border (default: 2mm gap, 8mm margin)
 make tile ROTATE=no         # never auto-rotate landscape artwork to pack tighter
-make clean-sheets           # delete every generated sheet (sources are untouched)
+make clean           # delete every generated sheet (sources are untouched)
 ```
 
 `ROTATE` defaults to `auto`: artwork wider than it is tall gets rotated 90°
