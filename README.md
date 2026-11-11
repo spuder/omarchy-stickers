@@ -1,78 +1,38 @@
 # omarchy-stickers
 
-Turns a single piece of artwork (PNG, JPEG, or SVG) into a printable sticker
-sheet: one image tiled edge-to-edge across a page, sized to fit as many
-copies as possible.
+Sticker artwork for [Omarchy](https://omarchy.org): printable cut files, vector sources, and raster images.
 
-## Prerequisites
+## Silhouette Cameo cut files (`.studio3`)
 
-- [Inkscape](https://inkscape.org/) 1.x — measures, rotates, and rasterizes the artwork
+The `.studio3` files are [Silhouette Studio](https://www.silhouetteamerica.com/silhouette-studio) projects for a **Silhouette Cameo** cutter. Each one is a print-and-cut layout that is ready to go: the artwork, the registration marks, and the cut lines are already set.
 
-```sh
-# macOS
-brew install --cask inkscape
+You can open them in Silhouette Studio, or in your browser with [spuder/shadow-garage](https://github.com/spuder/shadow-garage).
 
-# Omarchy
-sudo pacman -S inkscape
-```
+| File | Preview |
+| --- | --- |
+| [`weCanFixEverything2.studio3`](weCanFixEverything2.studio3) | <img src="previews/weCanFixEverything2.png" width="200" alt="weCanFixEverything2 layout preview"> |
+| [`weCanFixEverything.studio3`](weCanFixEverything.studio3) | <img src="previews/weCanFixEverything.png" width="160" alt="weCanFixEverything artwork"> |
+| [`omarchy-log-1.studio3`](omarchy-log-1.studio3) | <img src="previews/omarchy-log-1.png" width="360" alt="Omarchy logo color variants"> |
+| [`omarchy-watermark2.studio3`](omarchy-watermark2.studio3) | <img src="previews/omarchy-watermark2.png" width="360" alt="Omarchy wordmark color variants"> |
 
-`awk`, `sed`, `base64`, and `bash` are also required, but ship by default on both.
+The `weCanFixEverything2` preview is the page thumbnail saved inside the file. The other previews show the artwork embedded in each file, not the full page layout.
 
-## Quick start
+## Source files
 
-```sh
-make tile
-```
+Vector (SVG):
 
-This builds every sticker sheet listed in the Makefile's `STICKERS` variable,
-at both page sizes (A4 and US Letter), as PDFs in `pdf/`. Output files are
-named `<sticker>-a4.pdf` and `<sticker>-8.5x11.pdf`. Rerunning `make tile`
-only rebuilds sheets whose source image changed.
+- [`WeCanFixEverything.svg`](WeCanFixEverything.svg)
+- [`omarchy-watermark2.svg`](omarchy-watermark2.svg)
+- [`omarchy-workmark.svg`](omarchy-workmark.svg)
+- [`omarchy-logos/`](omarchy-logos/): the `oma-logo-*`, `omarchy-logo-*`, and `omarchy-wordmark-*` sets, as SVG and PNG, in one color variant per Omarchy theme
 
-To add a new sticker, open the `Makefile` and add one line:
+Raster (PNG / JPEG):
 
-```make
-STICKERS += path/to/your-image.png
-```
+- [`weCanFixEverything.png`](weCanFixEverything.png) / [`weCanFixEverything.jpg`](weCanFixEverything.jpg)
+- [`weCanFixEverything2.png`](weCanFixEverything2.png)
+- [`myComputerMyRules.png`](myComputerMyRules.png)
+- [`quattro.png`](quattro.png)
 
-The source can be a raw PNG/JPEG, a plain vector SVG, or an SVG with one
-embedded image — any of them work the same way. By default each tile is
-sized to the artwork's natural size. To scale it to a specific width
-instead (aspect ratio is preserved), add a line right below the `STICKERS`
-list:
+## Printable sheets
 
-```make
-$(call set_width,path/to/your-image.png,50)
-```
-
-That scales `your-image` to 50mm wide on the sheet, in both page sizes.
-
-## Other useful commands
-
-```sh
-make tile SHADOW=1          # add a white halo/drop-shadow behind every tile
-make tile GAP=0 MARGIN=5    # pack tiles edge to edge, 5mm page border (default: 2mm gap, 8mm margin)
-make tile ROTATE=no         # never auto-rotate landscape artwork to pack tighter
-make clean           # delete every generated sheet (sources are untouched)
-```
-
-`ROTATE` defaults to `auto`: artwork wider than it is tall gets rotated 90°
-automatically, since that usually packs more copies onto a portrait page.
-
-For a one-off sheet outside the `STICKERS` list (a different page size for
-a single image, testing a width before adding it permanently, etc.), skip
-the Makefile entirely:
-
-```sh
-make tile-one SRC=path/to/image.png OUT=pdf/out-letter.pdf PAGE=letter WIDTH=40
-```
-
-Or call the script directly for full control. `tile-svg.sh` picks the output
-format from `-o`'s extension, so either works:
-
-```sh
-scripts/tile-svg.sh -i path/to/image.png -o out.pdf -p a4 -w 50 -s
-scripts/tile-svg.sh -i path/to/image.png -o out.svg -p a4 -w 50 -s   # editable SVG instead of PDF
-```
-
-Run `scripts/tile-svg.sh` with no arguments to see every flag.
+- [`we-can-fix-everything-letter-35x35mm-35pcs.pdf`](we-can-fix-everything-letter-35x35mm-35pcs.pdf): US Letter, 35 stickers at 35×35 mm
